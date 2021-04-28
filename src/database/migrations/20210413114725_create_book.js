@@ -3,8 +3,11 @@ exports.up = function(knex) {
       table.increments('id').primary();
       table.string('name').notNullable();
       table.string('author').notNullable();
-      table.string('user_id').notNullable();
-      table.string('category_id').notNullable();
+      table.integer('user_id').unsigned().notNullable();
+      table.integer('category_id').unsigned().notNullable();
+
+      table.foreign('user_id').references('user.id').onDelete('CASCADE').onUpdate('CASCADE');
+      table.foreign('category_id').references('category.id').onDelete('CASCADE').onUpdate('CASCADE');
     });
   };
   

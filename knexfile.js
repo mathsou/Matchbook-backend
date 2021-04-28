@@ -7,7 +7,7 @@ module.exports = {
     connection: {
       host : 'localhost',
       user : 'root',
-      password : '',
+      password : '2808',
       database : 'matchbook'
     },
     migrations: {
