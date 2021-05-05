@@ -1,6 +1,6 @@
 exports.up = function(knex) {
     return knex.schema.createTable('book', function(table){
-      table.increments('id').primary();
+      table.increments('id').primary().unsigned();
       table.string('name').notNullable();
       table.string('author').notNullable();
       table.integer('user_id').unsigned().notNullable();

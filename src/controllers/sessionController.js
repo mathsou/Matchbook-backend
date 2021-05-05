@@ -21,7 +21,7 @@ module.exports = {
             if(passwordEncrypted == userSession.password){
                 const userToken = {id: userSession.id}
                 const token = jwt.sign({idUser: userToken})
-                return response.json({token});
+                return response.json({"success": true, "status": 0, "message": "Success", "data":{token}});
             }
             return response.json({error: 'Senha incorreta'})
         }

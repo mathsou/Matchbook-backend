@@ -9,7 +9,7 @@ module.exports = {
         const usuario = await connection('user')
         .select('userName', 'name', 'email')
         .where({id: id});
-        return response.json(usuario);
+        return response.json({"success": true, "status": 0, "message": "Success", "data":{"registration": usuario}});
         
     },
     async create (request, response){
@@ -23,8 +23,7 @@ module.exports = {
         const id = await connection('user').select('id').where({userName: userName}).first()
         const userToken = {id}
         const token = jwt.sign({user: userToken})
-        return response.json({token});
-        
+        return response.json({"success": true, "status": 0, "message": "Success", "data":{token}});
     },
 
 
