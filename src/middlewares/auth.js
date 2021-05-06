@@ -6,7 +6,7 @@ module.exports =
     async (request, response, next) => {
         const authHeader = request.headers.authorization;
         if (!authHeader) {
-            return response.status(401).send({ error: "No token provided" });
+            return response.status(401).send({"success": false, "status": -3, "message": "No token provided", "data": {} });
         }
 
         const [scheme, token] = authHeader.split(" ");
@@ -16,6 +16,6 @@ module.exports =
             response.locals.idUser = decoded.idUser;
             return next();
         } catch (err) {
-            return response.status(401).send({ error: "Token invalid" });
+            return response.status(401).send({"success": false, "status": -3, "message": "Token invalid", "data": {} });
     }
 };
