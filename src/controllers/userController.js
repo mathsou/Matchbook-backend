@@ -14,16 +14,16 @@ module.exports = {
     },
     async create (request, response){
         const {userName, name, email, password} = request.body;
-        await connection('user').insert({
+        const [id] = await connection('user').returning('id').insert({
             userName,
             name,
             email,
             password: crypto.createHash('md5').update(password).digest('hex')
         }); 
-        const id = await connection('user').select('id').where({userName: userName}).first()
         const userToken = {id}
         const token = jwt.sign({user: userToken})
-        return response.json({"success": true, "status": 0, "message": "Success", "data":{token}});
+
+        return response.json({"success": true, "status": 0, "message": "Success", "data":{id, token}});
     },
 
 
