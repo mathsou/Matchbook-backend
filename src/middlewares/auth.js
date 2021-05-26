@@ -13,7 +13,7 @@ module.exports =
 
         try {
             const decoded = await jwt.verify(token);
-            response.locals.idUser = decoded.idUser;
+            response.locals.id = decoded.user;
             return next();
         } catch (err) {
             return response.status(401).send({"success": false, "status": -3, "message": "Token invalid", "data": {} });

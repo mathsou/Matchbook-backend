@@ -5,14 +5,9 @@ exports.up = function(knex) {
       table.string('name').notNullable();
       table.string('email').notNullable();
       table.string('password').notNullable();
-      table.string('city_id').notNullable();
-      table.string('facebook');
-      table.string('instagram');
-      table.boolean('showFacebook').notNullable();
-      table.boolean('showInstagram').notNullable();
-      table.boolean('showEmail').notNullable();
+      table.integer('city_id').unsigned();
 
-      table.foreign('city_id').references('city.id').onDelete('CASCADE').onUpdate('CASCADE');
+      table.foreign('city_id').references('city.id');
     });
   };
   
