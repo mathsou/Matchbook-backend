@@ -17,10 +17,10 @@ module.exports = {
             .first();
 
         if(userSession){
-            passwordEncrypted = crypto.createHash('md5').update(password).digest('hex')
+            passwordEncrypted = crypto.createHash('md5').update(password).digest('hex');
             if(passwordEncrypted == userSession.password){
                 const userToken = {id: userSession.id}
-                const token = jwt.sign({idUser: userToken})
+                const token = jwt.sign({user: userToken})
                 return response.json({"success": true, "status": 0, "message": "Success", "data":{"id":userSession.id, token}});
             }
             return response.json({error: 'Senha incorreta'})
