@@ -13,12 +13,13 @@ module.exports = {
         
     },
     async create (request, response){
-        const {userName, name, email, password} = request.body;
+        const {userName, name, email, password, show_email} = request.body;
         const [id] = await connection('user').returning('id').insert({
             userName,
             name,
             email,
-            password: crypto.createHash('md5').update(password).digest('hex')
+            password: crypto.createHash('md5').update(password).digest('hex'),
+            show_email
         }); 
         const userToken = {id}
         const token = jwt.sign({user: userToken})

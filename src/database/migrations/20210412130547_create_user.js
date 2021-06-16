@@ -6,6 +6,7 @@ exports.up = function(knex) {
       table.string('email').notNullable();
       table.string('password').notNullable();
       table.integer('city_id').unsigned();
+      table.boolean('show_email').default(0);
 
       table.foreign('city_id').references('city.id');
     });
