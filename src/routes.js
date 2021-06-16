@@ -19,6 +19,7 @@ routes.post('/login', sessionController.create);
 routes.use(authMiddleware);
 
 routes.get('/home', homeController.index);
+routes.post('/home', homeController.create);
 
 routes.get('/user', userController.index);
 routes.put('/user', userController.modify);
