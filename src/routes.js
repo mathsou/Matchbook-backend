@@ -19,6 +19,10 @@ const authMiddleware = require('./middlewares/auth');
 routes.post('/register', userController.create);
 routes.post('/login', sessionController.create);
 routes.post('/photos', multer(multerConfig).single('file'), photoController.create);
+routes.post('/photos', multer(multerConfig).single('file'), async (req, res) => {
+    const photos = await Post.find();
+    return res.json(photos);
+});
 
 routes.use(authMiddleware);
 
