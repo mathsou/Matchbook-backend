@@ -19,10 +19,12 @@ const authMiddleware = require('./middlewares/auth');
 routes.post('/register', userController.create);
 routes.post('/login', sessionController.create);
 
-routes.use(authMiddleware);
-
 routes.post('/photos/:book_id', multer(multerConfig).single('file'), photoController.create);
 routes.get('/photos/:book_id', photoController.index);
+
+routes.use(authMiddleware);
+
+
 
 routes.get('/home', homeController.index);
 routes.post('/home', homeController.create);
