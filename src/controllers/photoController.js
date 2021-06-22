@@ -18,7 +18,7 @@ module.exports = {
             });
 
 
-         return response.json({"success": true, "status": 0, "message": "Success", "data":{photos}});
+         return response.json({"success": true, "status": 0, "message": "Success"});
         
 
     }
