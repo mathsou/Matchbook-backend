@@ -14,19 +14,30 @@ module.exports = {
     },
     async create (request, response){
         const user_id = response.locals.id
-        const {socialMedia, userSocial, visible } = request.body;
-        if(socialMedia === 'facebook' || socialMedia === 'instagram' || socialMedia === 'email'){
+        const {socialMediaI, userSocialI, visibleI,socialMediaF, userSocialF, visibleF} = request.body;
+        if(userSocialI != '' && socialMediaI === 'instagram'){
+
             await connection('social').insert({
-                socialMedia,
-                userSocial,
+                socialMedia: socialMediaI,
+                userSocial: userSocialI,
                 "user_id": user_id.id,
-                visible
+                visible: visibleI
                 
             }); 
-    
-            return response.json({"success": true, "status": 0, "message": "Success"});
         }
-        return response.json({"success": false, "status": -2, "message": "Invalid value"});
+        if(userSocialI != '' && socialMediaI === 'facebook'){
+
+            await connection('social').insert({
+                socialMedia: socialMediaF,
+                userSocial: userSocialF,
+                "user_id": user_id.id,
+                visible: visibleF
+                
+            }); 
+        }
+            return response.json({"success": true, "status": 0, "message": "Success"});
+        
+        // return response.json({"success": false, "status": -2, "message": "Invalid value"});
         
     },
 
