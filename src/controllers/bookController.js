@@ -4,7 +4,6 @@ module.exports = {
     async index(request, response){
         const user_id = response.locals.id;
         const {id} = request.query;
-        console.log(id)
         if(id){
             const books = await connection('book')
             .select([
