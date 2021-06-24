@@ -25,7 +25,7 @@ module.exports = {
                 
             }); 
         }
-        if(userSocialI != '' && socialMediaI === 'facebook'){
+        if(userSocialF != '' && socialMediaF === 'facebook'){
 
             await connection('social').insert({
                 socialMedia: socialMediaF,
