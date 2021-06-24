@@ -35,7 +35,7 @@ routes.get('/profile', profileController.index);
 routes.post('/profile', profileController.create);
 routes.put('/profile', profileController.modify);
 
-routes.get('/book/:id', bookController.index);
+routes.get('/book', bookController.index);
 routes.post('/book', bookController.create);
 
 module.exports = routes;
