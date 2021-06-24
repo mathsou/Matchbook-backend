@@ -21,20 +21,21 @@ routes.post('/login', sessionController.create);
 
 routes.use(authMiddleware);
 
-routes.post('/photos/:book_id', multer(multerConfig).single('file'), photoController.create);
-routes.get('/photos/:book_id', photoController.index);
+routes.post('/photos', multer(multerConfig).array('file', 5), photoController.create);
+routes.get('/photos', photoController.index);
+routes.delete('/photos', photoController.remove);
 
 routes.get('/home', homeController.index);
 routes.post('/home', homeController.create);
 
-routes.get('/user', userController.index);
+routes.get('/user/:id', userController.index);
 routes.put('/user', userController.modify);
 
 routes.get('/profile', profileController.index);
 routes.post('/profile', profileController.create);
 routes.put('/profile', profileController.modify);
 
-routes.get('/book', bookController.index);
+routes.get('/book/:id', bookController.index);
 routes.post('/book', bookController.create);
 
 module.exports = routes;
