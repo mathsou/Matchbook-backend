@@ -9,6 +9,7 @@ const homeController = require('./controllers/homeController');
 const bookController = require('./controllers/bookController');
 const profileController = require('./controllers/profileController');
 const photoController = require('./controllers/photoController');
+const haveBooksController = require('./controllers/haveBooksController');
 
 
 const routes = express.Router();
@@ -20,6 +21,8 @@ routes.post('/register', userController.create);
 routes.post('/login', sessionController.create);
 
 routes.use(authMiddleware);
+
+routes.get('/haveBooks', haveBooksController.index);
 
 routes.post('/photos', multer(multerConfig).array('file', 5), photoController.create);
 routes.get('/photos', photoController.index);
