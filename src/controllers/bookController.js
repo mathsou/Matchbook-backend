@@ -7,11 +7,10 @@ module.exports = {
         .select([
             'book.id',
             'book.name',
-           'book.author',
-            'category.description'       
+            'book.author',
+            'book.category'       
         ])
         .join('user', 'user.id', '=', 'book.user_id')
-        .join('category', 'category.id', '=', 'book.category_id')
         .where('user_id', user_id.id);
 
         return response.json({"success": true, "status": 0, "message": "Success", "data": books});
