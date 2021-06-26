@@ -40,11 +40,11 @@ module.exports = {
                     }
                     
                 });
-                return response.json({"success": true, "status": 0, "message": "Success", "data": {}});
+                return response.json({"success": true, "status": 0, "message": "Success", "data": request.files});
             }
             return response.status(401).json({"success": false, "status": -3, "message": "Invalid user credentials"});
         }
-        return response.json({"success": false, "status": -2, "message": "Invalid value", "data": request.files});        
+        return response.json({"success": false, "status": -2, "message": "Invalid value", "data": {}});        
 
 
     },
