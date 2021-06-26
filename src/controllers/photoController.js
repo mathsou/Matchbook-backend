@@ -26,8 +26,7 @@ module.exports = {
         if(book_id){
             const userId = await connection('book').select('user_id').where('id', book_id).first();
             if(user_id.id === userId.user_id){
-                request.files.map(async function(file){
-                    const { key: name, size, location: url = "" } = file;
+                    const { key: name, size, location: url = "" } = request.file;
                     try{
                         await connection('photos')
                         .insert({
@@ -39,8 +38,6 @@ module.exports = {
                     }catch{
                 return response.json({"success": false, "status": 0, "message": "Internal error", "data": {}});
                     }
-                    
-                });
                 return response.json({"success": true, "status": 0, "message": "Success", "data": teste});
             }
             return response.status(401).json({"success": false, "status": -3, "message": "Invalid user credentials"});
