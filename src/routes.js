@@ -24,7 +24,7 @@ routes.use(authMiddleware);
 
 routes.get('/haveBooks', haveBooksController.index);
 
-routes.post('/photos', multer(multerConfig).array('file', 5), photoController.create);
+routes.post('/photos', multer(multerConfig).single('file'), photoController.create);
 routes.get('/photos', photoController.index);
 routes.delete('/photos', photoController.remove);
 
