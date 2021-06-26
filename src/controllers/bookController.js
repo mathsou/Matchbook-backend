@@ -37,13 +37,13 @@ module.exports = {
     async create(request, response){
         const {name, author, category} = request.body;
         const user_id = response.locals.id;
-        await connection('book').insert({
+        const book_id = await connection('book').returning(id).insert({
             name,
             author,
             user_id: user_id.id,
             category_id: 2,
             category
         });
-        return response.json({"success": true, "status": 0, "message": "Success"});
+        return response.json({"success": true, "status": 0, "message": "Success", "data": book_id});
     }
 }
