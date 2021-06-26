@@ -52,44 +52,20 @@ module.exports = {
             .where('id', book_id)
             .first();
             if(user_id.id === userId.user_id){
-                if (photo){
-                    // try{
-                        await s3.deleteObject ({
-                            Bucket: "matchbookuploads",
-                            Key: "9d500cc1-pjo-mdt-2.jpg"
-                        }, function(err, data){
-                            if(err) console.log(err, err.stack);
-                            else console.log(data);
-                        }).promise().catch(err => {
-                            console.log(err);
-                        });
-                    // } catch{
-                        return response.status(200).send()//.json({"success": false, "status": -9, "message": "Internal error", "data": {}}); 
-                    // }                   
+                if (photo){        
                     await connection('photos')
                     .where('book_id', book_id)
                     .andWhere('name', photo)
                     .del();
                 }
                 else{
-                    let fail = false;
                     const photos = await connection('photos').select('name').where('id', book_id);
                     photos.map(async function(pht){
-                        try{
-                            await s3.deleteObject({
-                                bucket: process.env.BUCKET_NAME,
-                                key: pht.name
-                            }).promise();
-                        } catch{
-                            fail = true;
-                            return false; 
-                        } 
                         await connection('photos')
                             .where('book_id', book_id)
                             .andWhere('name', pht.name)
                             .del(); 
                     })
-                    if(fail) return response.status(500).json({"success": false, "status": -9, "message": "Internal error", "data": {}}); 
                 }
                 return response.json({"success": true, "status": 0, "message": "Success", "data": {}});
             }
