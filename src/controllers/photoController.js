@@ -27,13 +27,18 @@ module.exports = {
             if(user_id.id === userId.user_id){
                 request.files.map(async function(file){
                     const { key: name, size, location: url = "" } = file;
-                    await connection('photos')
-                    .insert({
-                        name,
-                        size,
-                        url,
-                        book_id
-                    });
+                    try{
+                        await connection('photos')
+                        .insert({
+                            name,
+                            size,
+                            url,
+                            book_id
+                        });
+                    }catch{
+                return response.json({"success": false, "status": 0, "message": "Internal error", "data": {}});
+                    }
+                    
                 });
                 return response.json({"success": true, "status": 0, "message": "Success", "data": {}});
             }
