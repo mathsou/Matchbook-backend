@@ -22,7 +22,7 @@ module.exports = {
     async create(request, response){
         const {book_id} = request.query;
         const user_id = response.locals.id;
-        console.log(file);
+        console.log(files);
         if(book_id){
             const userId = await connection('book').select('user_id').where('id', book_id).first();
             if(user_id.id === userId.user_id){
