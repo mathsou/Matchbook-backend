@@ -59,7 +59,7 @@ module.exports = {
                     .del();
                 }
                 else{
-                    const photos = await connection('photos').select('name').where('id', book_id);
+                    const photos = await connection('photos').select('id').where('id', book_id);
                     photos.map(async function(pht){
                         await connection('photos')
                             .where('book_id', book_id)
