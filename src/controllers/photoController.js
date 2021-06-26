@@ -22,6 +22,7 @@ module.exports = {
     async create(request, response){
         const {book_id} = request.query;
         const user_id = response.locals.id;
+        const teste = request.body;
         if(book_id){
             const userId = await connection('book').select('user_id').where('id', book_id).first();
             if(user_id.id === userId.user_id){
@@ -40,7 +41,7 @@ module.exports = {
                     }
                     
                 });
-                return response.json({"success": true, "status": 0, "message": "Success", "data": request.files});
+                return response.json({"success": true, "status": 0, "message": "Success", "data": teste});
             }
             return response.status(401).json({"success": false, "status": -3, "message": "Invalid user credentials"});
         }
