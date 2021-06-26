@@ -55,7 +55,7 @@ module.exports = {
                 if (photo){        
                     await connection('photos')
                     .where('book_id', book_id)
-                    .andWhere('name', photo)
+                    .andWhere('id', photo)
                     .del();
                 }
                 else{
@@ -63,7 +63,7 @@ module.exports = {
                     photos.map(async function(pht){
                         await connection('photos')
                             .where('book_id', book_id)
-                            .andWhere('name', pht.name)
+                            .andWhere('id', pht.name)
                             .del(); 
                     })
                 }
