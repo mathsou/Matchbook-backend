@@ -45,5 +45,30 @@ module.exports = {
             category
         });
         return response.json({"success": true, "status": 0, "message": "Success", "data": book_id});
+    },
+
+    async modify(request, response){
+        const {name, author, category} = request.body;
+        const {id} = request.query;
+        const user_id = response.locals.id;
+        await connection('book')
+        .where('user_id', user_id.id)
+        .andWhere('id', id)
+        .update({
+            name: name,
+            author: author,
+            category: category
+        });
+        return response.status(204).send();
+    },
+
+    async delete(request, response){
+        const {id} = request.query;
+        const user_id = response.locals.id;
+        await connection('book')
+        .where('user_id', user_id.id)
+        .andWhere('id', id)
+        .del()
+        return response.status(204).send();
     }
 }
