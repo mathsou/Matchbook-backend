@@ -30,19 +30,22 @@ module.exports = {
                 book_id,
                 user_id: user_id.id
             });
-            const matches = await connection('likes').select('book.id as book_id', 'likes.user_id')
-            .join('book', 'book.id', '=', 'likes.book_id')
-            .where('book.user_id', user_id.id)
-            .andWhere('likes.liked', 1)
-            if(matches.length > 0){
-                matches.map(function(match){
-                    // console.log(book_id, match.book_id, user_id.id, match.user_id)
-                    matchController.create(book_id, match.book_id, user_id.id, match.user_id)
-                })
-                
-                return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": true}});
+            if(liked === 1){
+                const matches = await connection('likes').select('book.id as book_id', 'likes.user_id')
+                .join('book', 'book.id', '=', 'likes.book_id')
+                .where('book.user_id', user_id.id)
+                .andWhere('likes.liked', 1)
+                if(matches.length > 0){
+                    matches.map(function(match){
+                        // console.log(book_id, match.book_id, user_id.id, match.user_id)
+                        matchController.create(book_id, match.book_id, user_id.id, match.user_id)
+                    })
+                    
+                    return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": true}});
+                }
+                return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": false}});
             }
-            return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": false}});
+            return response.json({"success": true, "status": 0, "message": "Success"});
         }
         return response.json({"success": false, "status": -2, "message": "Invalid value"});
     }
