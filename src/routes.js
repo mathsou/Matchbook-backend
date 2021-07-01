@@ -40,5 +40,7 @@ routes.put('/profile', profileController.modify);
 
 routes.get('/book', bookController.index);
 routes.post('/book', bookController.create);
+routes.put('/book', bookController.modify);
+routes.delete('/book', bookController.delete);
 
 module.exports = routes;

@@ -1,4 +1,5 @@
 const connection = require('../database/connection');
+const matchController = require('./matchController');
 
 module.exports = {
     async index(request, response){
@@ -14,7 +15,6 @@ module.exports = {
             .where("user_id", user_id.id)
         )
         .orderByRaw('RAND()')
-        .limit(1)
         
         return response.json({"success": true, "status": 0, "message": "Success", "data": books});
     },
@@ -30,8 +30,15 @@ module.exports = {
                 book_id,
                 user_id: user_id.id
             });
-           
-            return response.json({"success": true, "status": 0, "message": "Success"});
+            const match = await connection('likes').select('book.id', 'likes.user_id')
+            .join('book', 'book.id', '=', 'likes.book_id')
+            .where('book.user_id', user_id.id)
+            console.log(match)
+            if(match.length > 0){
+                matchController.create(book_id, match.book_id, user_id, match.user_id)
+                return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": true}});
+            }
+            return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": false}});
         }
         return response.json({"success": false, "status": -2, "message": "Invalid value"});
     }
