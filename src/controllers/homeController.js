@@ -6,7 +6,7 @@ module.exports = {
         const user_id = response.locals.id;
         //NOT READY
         const books = await connection('book')
-        .select(["book.id", "book.name as book", "book.author", "user.id as user_owner","user.name"])
+        .select(["book.id", "book.name as book", "book.author", "user.id as user_id", "category", "city"])
         .join('user', 'user.id', '=', 'book.user_id')
         .where('book.user_id', "!=",user_id.id)
         .whereNotIn("book.id",
