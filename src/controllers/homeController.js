@@ -21,7 +21,7 @@ module.exports = {
 
     async create(request, response){
         const user_id = response.locals.id;
-        const {book_id, liked, user_owner} = request.body;
+        const {book_id, liked} = request.body;
 
         if(typeof(book_id) === "number" || typeof(liked) === "boolean"){
             await connection('likes')
