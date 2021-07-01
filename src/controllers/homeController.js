@@ -30,12 +30,16 @@ module.exports = {
                 book_id,
                 user_id: user_id.id
             });
-            const match = await connection('likes').select('book.id', 'likes.user_id')
+            const matches = await connection('likes').select('book.id as book_id', 'likes.user_id')
             .join('book', 'book.id', '=', 'likes.book_id')
             .where('book.user_id', user_id.id)
-            console.log(match)
-            if(match.length > 0){
-                matchController.create(book_id, match.book_id, user_id, match.user_id)
+            .andWhere('likes.liked', 1)
+            if(matches.length > 0){
+                matches.map(function(match){
+                    // console.log(book_id, match.book_id, user_id.id, match.user_id)
+                    matchController.create(book_id, match.book_id, user_id.id, match.user_id)
+                })
+                
                 return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": true}});
             }
             return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": false}});
