@@ -33,7 +33,7 @@ module.exports = {
         var {userName, name, email, password} = request.body;
         const id = response.locals.idUser;
         await connection('usuarios')
-        .where('id', id)
+        .where('id', id.id)
         .update({
             userName: userName,
             name: name,
