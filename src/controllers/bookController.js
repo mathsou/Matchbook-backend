@@ -10,9 +10,11 @@ module.exports = {
                 'book.id',
                 'book.name',
                 'book.author',
-                'book.category'       
+                'book.category',
+                'photos.url as photo'      
             ])
             .join('user', 'user.id', '=', 'book.user_id')
+            .join('photos', 'photos.book_id', '=', 'book.id')
             .where('user_id', user_id.id)
             .andWhere('book.id', id)
             .first()
@@ -24,9 +26,11 @@ module.exports = {
             'book.name',
             'book.author',
             'book.category',
-            'user.city'      
+            'user.city',   
+            'photos.url as photo'      
         ])
         .join('user', 'user.id', '=', 'book.user_id')
+        .join('photos', 'photos.book_id', '=', 'book.id')
         .where('user_id', user_id.id);
 
         
