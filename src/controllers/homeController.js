@@ -4,12 +4,36 @@ const matchController = require('./matchController');
 module.exports = {
     async index(request, response){
         const user_id = response.locals.id;
-        //NOT READY
+
+        const user = await connection('user')
+        .select('city', 'preference')
+        .leftJoin('preferences', 'user.id', '=', 'preferences.user_id')
+        .where('user.id', user_id.id)
+        .first()
+        if(user.preference){
+            const books = await connection('book')
+            .select(["book.id", "book.name as book", "book.author", "user.id as user_id", "category", "city", 'photos.url as photo'])
+            .join('user', 'user.id', '=', 'book.user_id')
+            .join('photos', 'photos.book_id', '=', 'book.id')
+            .where('book.user_id', "!=",user_id.id)
+            .andWhere('user.city', user.city)
+            .whereNotIn("book.id",
+                connection('likes')
+                .select("book_id")
+                .where("user_id", user_id.id)
+            )        
+            .whereIn('book.category', user.preference.split(', '))
+            .orderByRaw('RAND()')
+            
+            return response.json({"success": true, "status": 0, "message": "Success", "data": books});
+
+        }
         const books = await connection('book')
         .select(["book.id", "book.name as book", "book.author", "user.id as user_id", "category", "city", 'photos.url as photo'])
         .join('user', 'user.id', '=', 'book.user_id')
         .join('photos', 'photos.book_id', '=', 'book.id')
         .where('book.user_id', "!=",user_id.id)
+        .andWhere('user.city', user.city)
         .whereNotIn("book.id",
             connection('likes')
             .select("book_id")
