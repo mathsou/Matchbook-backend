@@ -5,29 +5,42 @@ module.exports = {
         const user_id = response.locals.id;
         const {id} = request.query;
         if(id){
-            const books = await connection('matches')
+            const book = await connection('matches')
             .select([
                 'matches.id',
-                'matches.name',
-                'matches.author',
-                'matches.category'       
+                'book.name as book',
+                'book.category',
+                'book.author',
+                'user.city',
+                'user.name',
+                'user.email',  
+                'socialI.userSocial as instagram',
+                'socialI.visible as show_instagram',
+                'socialF.userSocial as facebook',
+                'socialF.visible as show_facebook'     
             ])
-            .join('user', 'user.id', '=', 'book.user_id')
-            .where('user_id', user_id.id)
-            .andWhere('book.id', id)
+            .leftJoin('book', 'book.id', '=', 'matches.math_book_id') 
+            .leftJoin('user', 'user.id', '=', 'book.user_id') 
+            .leftJoin({socialI: 'social'}, function(){
+                this.on('user.id', '=', 'socialI.user_id').andOn('socialI.socialMedia', '=', connection.raw('?', ['instagram']))
+            })
+            .leftJoin({socialF: 'social'}, function(){
+                this.on('user.id', '=', 'socialF.user_id').andOn('socialF.socialMedia', '=', connection.raw('?', ['facebook']))
+            })
+            .where('matches.user_id', user_id.id)
+            .andWhere('matches.id', id)
             .first()
-            return response.json({"success": true, "status": 0, "message": "Success", "data": books});
+            return response.json({"success": true, "status": 0, "message": "Success", "data": book});
         }
-        const books = await connection('book')
+        const books = await connection('matches')
         .select([
             'book.id',
-            'book.name',
-            'book.author',
-            'book.category',
-            'user.city'      
+            'book.name as book',
+            'book.url as photo',     
         ])
-        .join('user', 'user.id', '=', 'book.user_id')
-        .where('user_id', user_id.id);
+        .join('book', 'book.id', '=', 'matches.math_user_id')
+        .join('photos', 'photos.math_book_id', '=', 'book.id')
+        .where('matches.user_id', user_id.id);
 
         
 
@@ -55,6 +68,6 @@ module.exports = {
         .where('user_id', user_id.id)
         .andWhere('id', id)
         .del()
-        return response.status(204).send();
+        return response.json({"success": true, "status": 0, "message": "Success"});
     }
 }

@@ -10,6 +10,8 @@ const bookController = require('./controllers/bookController');
 const profileController = require('./controllers/profileController');
 const photoController = require('./controllers/photoController');
 const haveBooksController = require('./controllers/haveBooksController');
+const preferencesController = require('./controllers/preferencesController');
+const matchController = require('./controllers/matchController');
 
 
 const routes = express.Router();
@@ -42,5 +44,9 @@ routes.get('/book', bookController.index);
 routes.post('/book', bookController.create);
 routes.put('/book', bookController.modify);
 routes.delete('/book', bookController.delete);
+
+routes.post('/preference', preferencesController.create);
+
+routes.get('/match', matchController.index);
 
 module.exports = routes;
