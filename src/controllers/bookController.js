@@ -69,10 +69,28 @@ module.exports = {
     async delete(request, response){
         const {id} = request.query;
         const user_id = response.locals.id;
+        
+        await connection('matches')
+        .andWhere('my_book_id', id)
+        .del()
+
+        await connection('matches')
+        .andWhere('math_book_id', id)
+        .del()
+
+        await connection('likes')
+        .andWhere('book_id', id)
+        .del()
+
+        await connection('photos')
+        .andWhere('photos.book_id', id)
+        .del()
+
         await connection('book')
         .where('user_id', user_id.id)
         .andWhere('id', id)
         .del()
-        return response.status(204).send();
+
+        return response.json({"success": true, "status": 0, "message": "Success"});
     }
 }
