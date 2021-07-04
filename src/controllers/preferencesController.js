@@ -3,34 +3,35 @@ const connection = require('../database/connection');
 module.exports = {
     async index(request, response){
         const user_id = response.locals.id;
-        //NOT READY
-        const books = await connection('book')
-        .select(["book.id", "book.name as book", "book.author", "user.id as user_owner","user.name"])
-        .join('user', 'user.id', '=', 'book.user_id')
-        .where('book.user_id', "!=",user_id.id)
-        .whereNotIn("book.id",
-            connection('likes')
-            .select("book_id")
-            .where("user_id", user_id.id)
-        )
-        .orderByRaw('RAND()')
-        .limit(1)
-        
-        return response.json({"success": true, "status": 0, "message": "Success", "data": books});
+        const preferences = await connection('preferences')
+        .select('id', 'user_id', 'preference')
+        .where('user_id', user_id.id)
+        .first();
+        console.log(preferences.preference)
+        const preferenceArray = preferences.preference.split(',')
+        return response.json({"success": true, "status": 0, "message": "Success", "data": {"id": preferences.id, 'preferences': preferenceArray}});
     },
-
     async create(request, response){
         const user_id = response.locals.id;
         const {preference} = request.body;
-
         
-        if(typeof(book_id) === "number" || typeof(liked) === "boolean"){
-            await connection('likes')
-            .insert({
-                liked,
-                book_id,
-                user_id: user_id.id
-            });
+        const pref = await connection('preferences').select('user_id').where('user_id', user_id.id);
+        console.log(pref.length)
+        if(Array.isArray(preference)){
+            if(pref.length >= 1){
+                await connection('preferences')
+                .where('user_id', user_id.id)
+                .update({
+                    preference: preference.toString(),
+                    user_id: user_id.id
+                });
+            }else{
+                await connection('preferences')
+                .insert({
+                    preference: preference.toString(),
+                    user_id: user_id.id
+                });
+            }
            
             return response.json({"success": true, "status": 0, "message": "Success"});
         }

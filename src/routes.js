@@ -46,6 +46,7 @@ routes.put('/book', bookController.modify);
 routes.delete('/book', bookController.delete);
 
 routes.post('/preference', preferencesController.create);
+routes.get('/preference', preferencesController.index);
 
 routes.get('/match', matchController.index);
 
