@@ -7,7 +7,6 @@ module.exports = {
         .select('id', 'user_id', 'preference')
         .where('user_id', user_id.id)
         .first();
-        console.log(preferences.preference)
         const preferenceArray = preferences.preference.split(',')
         return response.json({"success": true, "status": 0, "message": "Success", "data": {"id": preferences.id, 'preferences': preferenceArray}});
     },
@@ -16,7 +15,6 @@ module.exports = {
         const {preference} = request.body;
         
         const pref = await connection('preferences').select('user_id').where('user_id', user_id.id);
-        console.log(pref.length)
         if(Array.isArray(preference)){
             if(pref.length >= 1){
                 await connection('preferences')
