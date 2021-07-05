@@ -11,6 +11,7 @@ module.exports = {
                 'book.name as book',
                 'book.category',
                 'book.author',
+                'photos.url as photo',
                 'user.city',
                 'user.name',
                 'user.email',  
@@ -20,6 +21,7 @@ module.exports = {
                 'socialF.visible as show_facebook'     
             ])
             .leftJoin('book', 'book.id', '=', 'matches.math_book_id') 
+            .leftJoin('photos', 'book.id', '=', 'photos.book_id') 
             .leftJoin('user', 'user.id', '=', 'book.user_id') 
             .leftJoin({socialI: 'social'}, function(){
                 this.on('user.id', '=', 'socialI.user_id').andOn('socialI.socialMedia', '=', connection.raw('?', ['instagram']))
