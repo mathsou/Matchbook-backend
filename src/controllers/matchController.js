@@ -36,12 +36,13 @@ module.exports = {
         }
         const books = await connection('matches')
         .select([
+            'matches.id',
             'book.id',
             'book.name as book',
-            'book.url as photo',     
+            'photos.url as photo',     
         ])
-        .join('book', 'book.id', '=', 'matches.math_user_id')
-        .join('photos', 'photos.math_book_id', '=', 'book.id')
+        .join('book', 'book.id', '=', 'matches.math_book_id')
+        .join('photos', 'photos.book_id', '=', 'book.id')
         .where('matches.user_id', user_id.id);
 
         
