@@ -37,7 +37,7 @@ module.exports = {
         const books = await connection('matches')
         .select([
             'matches.id',
-            'book.id',
+            'book.id as book_id',
             'book.name as book',
             'photos.url as photo',     
         ])
