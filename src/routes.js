@@ -49,5 +49,6 @@ routes.post('/preference', preferencesController.create);
 routes.get('/preference', preferencesController.index);
 
 routes.get('/match', matchController.index);
+routes.delete('/match', matchController.index);
 
 module.exports = routes;
