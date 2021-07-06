@@ -59,7 +59,7 @@ module.exports = {
                 const matches = await connection('likes').select('book.id as book_id', 'likes.user_id')
                 .join('book', 'book.id', '=', 'likes.book_id')
                 .where('likes.user_id', user_id)
-                .where('book.user_id', userId.id)
+                .andWhere('book.user_id', userId.id)
                 .andWhere('likes.liked', 1)
                 if(matches.length > 0){
                     matches.map(function(match){
