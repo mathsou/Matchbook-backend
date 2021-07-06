@@ -70,7 +70,7 @@ module.exports = {
                 }
                 return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": false}});
             }
-            return response.json({"success": true, "status": 0, "message": "Success"});
+            return response.json({"success": true, "status": 0, "message": "Success", "data": {"Match": false}});
         }
         return response.json({"success": false, "status": -2, "message": "Invalid value"});
     }
