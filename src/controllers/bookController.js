@@ -11,6 +11,7 @@ module.exports = {
                 'book.name',
                 'book.author',
                 'book.category',
+                'user.city', 
                 'photos.url as photo'      
             ])
             .join('user', 'user.id', '=', 'book.user_id')
