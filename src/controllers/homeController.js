@@ -55,7 +55,7 @@ module.exports = {
                 book_id,
                 user_id: userId.id
             });
-            if(liked === 1){
+            if(liked){
                 const matches = await connection('likes').select('book.id as book_id', 'likes.user_id')
                 .join('book', 'book.id', '=', 'likes.book_id')
                 .where('likes.user_id', user_id)
