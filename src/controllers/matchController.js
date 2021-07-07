@@ -55,7 +55,7 @@ module.exports = {
         .select('*')
         .where('user_id', my_user_id)
         .andWhere('math_book_id', match_user_id)
-        if(my_match != []){
+        if(my_match.length > 0){
             await connection('matches').insert({
                 math_book_id: match_book_id, 
                 my_book_id: my_book_id, 
@@ -66,7 +66,7 @@ module.exports = {
         .select('*')
         .where('user_id', match_user_id)
         .andWhere('math_book_id', my_book_id)
-        if(my_match != []){
+        if(my_match.length > 0){
             await connection('matches').insert({
                 math_book_id: my_book_id, 
                 my_book_id: match_book_id, 
