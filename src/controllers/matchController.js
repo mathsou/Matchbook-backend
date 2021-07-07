@@ -51,28 +51,18 @@ module.exports = {
     },
 
     async create(match_book_id, my_book_id, my_user_id, match_user_id){
-        const my_match = await connection('matches')
-        .select('*')
-        .where('user_id', my_user_id)
-        .andWhere('math_book_id', match_book_id)
-        if(my_match.length === 0){
-            await connection('matches').insert({
-                math_book_id: match_book_id, 
-                my_book_id: my_book_id, 
-                user_id: my_user_id
-            });
-        }
-        const other_match = await connection('matches')
-        .select('*')
-        .where('user_id', match_user_id)
-        .andWhere('math_book_id', my_book_id)
-        if(other_match.length === 0){
-            await connection('matches').insert({
-                math_book_id: my_book_id, 
-                my_book_id: match_book_id, 
-                user_id: match_user_id
-            });
-        }
+
+        await connection('matches').insert({
+            math_book_id: match_book_id, 
+            my_book_id: my_book_id, 
+            user_id: my_user_id
+        });
+
+        await connection('matches').insert({
+            math_book_id: my_book_id, 
+            my_book_id: match_book_id, 
+            user_id: match_user_id
+        });
     },
 
     async delete(request, response){
